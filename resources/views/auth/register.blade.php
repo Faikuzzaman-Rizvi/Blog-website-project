@@ -166,7 +166,7 @@
                             </div>
 
                             <div class="form-group mb-0 text-center">
-                                <button class="btn btn-primary w-100" type="submit"> Sign Up </button>
+                                <button class="btn btn-primary w-100" type="submit">Sign Up</button>
                             </div>
 
                         </form>
