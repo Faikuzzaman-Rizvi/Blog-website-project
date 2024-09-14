@@ -23,12 +23,13 @@ class ProfileController extends Controller
             'name' => $request->name,
             'upadate_at' => now(),
         ]);
-        return back()->with('name_update',"Name update success $old_name to $request->name");
+        return redirect()->route('profile.index')->with('name_update',"Name update success $old_name to $request->name");
     }
 
 
     public function email_update(Request $request){
-        return $request->validate([
+           $old_email = Auth::user()->email;
+            $request->validate([
             'email' => 'required|email',
         ]);
 
@@ -37,6 +38,6 @@ class ProfileController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect()->route('profile.email')->with('email_update',"Email update successfull");
+        return redirect()->route('profile.index')->with('email_update',"Email update successfull $old_email to $request->email");
     }
 }

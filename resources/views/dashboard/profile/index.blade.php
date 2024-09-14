@@ -4,7 +4,7 @@
 
 
 <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title mb-3">Name Update</h4>
@@ -14,7 +14,7 @@
 
                     <div class="mb-2">
                         <label for="exampleInputEmail1" class="form-label">Name</label>
-                        <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="enter your name">
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="enter your name">
                         @error('name')
                            <p class="text-danger">{{ $message }}</p>
                         @enderror
@@ -28,7 +28,7 @@
 
     {{-- email Update --}}
 
-    <div class="col-lg-3">
+    <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title mb-3">Email Update</h4>
@@ -57,23 +57,25 @@
 
 @section('script')
 
+@if (session('name_update'))
+
 <script>
-    const Toast = Swal.mixin({
-  toast: true,
-  position: "top-end",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  }
-});
-Toast.fire({
-  icon: "success",
-  title: "Signed in successfully"
-});
+    Toastify({
+  text: "{{ (session('name_update')) }}",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top", // `top` or `bottom`
+  position: "right", // `left`, `center` or `right`
+  stopOnFocus: true, // Prevents dismissing of toast on hover
+  style: {
+    background: "linear-gradient(to right, #00b09b, #96c93d)",
+  },
+  onClick: function(){} // Callback after click
+}).showToast();
 </script>
+
+@endif
 
 @if (session('email_update'))
 

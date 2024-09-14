@@ -466,7 +466,6 @@
     <!-- Dashboard init-->
     <script src="{{ asset('dashboard') }}/assets/js/pages/dashboard.js"></script>
     {{-- sweet alert --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     @yield('script')
 
