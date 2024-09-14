@@ -25,4 +25,18 @@ class ProfileController extends Controller
         ]);
         return back()->with('name_update',"Name update success $old_name to $request->name");
     }
+
+
+    public function email_update(Request $request){
+        return $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        User::find(auth()->id())->update([
+            'email' => $request->email,
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('profile.email')->with('email_update',"Email update successfull");
+    }
 }
