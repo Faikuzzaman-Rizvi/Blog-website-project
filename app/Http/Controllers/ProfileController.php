@@ -59,4 +59,17 @@ class ProfileController extends Controller
             return back()->withErrors(['c_password' => "Current password dosen't match with our record"])->withInput();
         }
     }
+
+    public function image_update(Request $request){
+        $request->validate([
+            'image' => 'required|image',
+        ]);
+
+        $request->file('image');
+
+        if($request->hasFile('image')){
+            $newname = auth()->id() . '-' . rand(1111,9999) . '-' . $request->file('image')->getClientOriginalExtension();
+            return $newname;
+        }
+    }
 }

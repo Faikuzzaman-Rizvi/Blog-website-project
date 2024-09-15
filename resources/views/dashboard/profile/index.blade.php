@@ -80,6 +80,30 @@
         </div>
     </div>
 
+        {{-- email Update --}}
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">Image Update</h4>
+
+                    <form role="form" action="{{ route('profile.image') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="mb-2">
+                            <label for="exampleInputEmail1" class="form-label">Image</label>
+                            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            @error('image')
+                               <p class="text-danger">{{ $message }}</p>
+                            @enderror
+
+                        </div>
+                        <button type="submit" class="btn btn-primary col-lg-12">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
 </div>
 
 

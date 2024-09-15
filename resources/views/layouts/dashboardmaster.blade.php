@@ -344,7 +344,13 @@
 
                         <li class="dropdown">
                             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="{{ asset('dashboard') }}/assets/images/users/avatar-4.jpg" alt="user-image" class="rounded-circle">
+                                @if (auth()->user()->image == 'defult.jpg')
+                                <img src="{{ asset('uploads/defult') }}/{{ auth()->user()->image }}" alt="user-image" class="rounded-circle">
+
+                                @else
+                                <img src="{{ asset('uploads/defult') }}/{{ auth()->user()->image }}" alt="user-image" class="rounded-circle">
+
+                                @endif
                                 <span class="ms-1 d-none d-md-inline-block">
                                     {{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i>
                                 </span>
