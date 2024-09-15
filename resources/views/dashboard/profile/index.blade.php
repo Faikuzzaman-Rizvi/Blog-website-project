@@ -50,6 +50,36 @@
         </div>
     </div>
 
+    {{-- password update --}}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3">Password Update</h4>
+
+                <form role="form" action="{{ route('profile.password') }}" method="POST">
+                    @csrf
+
+                    <div class="mb-2">
+                        <label for="exampleInputEmail1" class="form-label">Current Password</label>
+                        <input type="password" name="c_password" class="form-control @error('c_password') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="enter your current password">
+                        @error('c_password')
+                           <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                        <label for="exampleInputEmail1" class="form-label">New Password</label>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="enter your new password">
+                        @error('password')
+                           <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                        <label for="exampleInputEmail1" class="form-label">Corfirm Password</label>
+                        <input type="password" name="password_confirmation" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="enter your confirm password">
+
+                    </div>
+                    <button type="submit" class="btn btn-primary col-lg-12">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
@@ -82,6 +112,26 @@
 <script>
     Toastify({
   text: "{{ (session('email_update')) }}",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top", // `top` or `bottom`
+  position: "right", // `left`, `center` or `right`
+  stopOnFocus: true, // Prevents dismissing of toast on hover
+  style: {
+    background: "linear-gradient(to right, #00b09b, #96c93d)",
+  },
+  onClick: function(){} // Callback after click
+}).showToast();
+</script>
+
+@endif
+
+@if (session('password_update'))
+
+<script>
+    Toastify({
+  text: "{{ (session('password_update')) }}",
   duration: 3000,
   newWindow: true,
   close: true,

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 
 class ProfileController extends Controller
 {
@@ -30,7 +31,7 @@ class ProfileController extends Controller
     public function email_update(Request $request){
            $old_email = Auth::user()->email;
             $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
         ]);
 
         User::find(auth()->id())->update([
@@ -39,5 +40,23 @@ class ProfileController extends Controller
         ]);
 
         return redirect()->route('profile.index')->with('email_update',"Email update successfull $old_email to $request->email");
+    }
+
+
+    public function password_update(Request $request){
+        $request->validate([
+            'c_password' => 'required',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        if(Hash::check($request->c_password, auth()->user()->password)){
+            User::find(Auth::user()->id)->update([
+                'password' => $request->password,
+                'update_at' => now(),
+            ]);
+            return redirect()->route('profile.index')->with('password_update',"Password update successfull");
+        }else{
+            return back()->withErrors(['c_password' => "Current password dosen't match with our record"])->withInput();
+        }
     }
 }
