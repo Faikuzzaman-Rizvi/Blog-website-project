@@ -345,10 +345,10 @@
                         <li class="dropdown">
                             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 @if (auth()->user()->image == 'defult.jpg')
-                                <img src="{{ asset('uploads/defult') }}/{{ auth()->user()->image }}" alt="user-image" class="rounded-circle">
+                                <img src="{{ asset('uploads/default') }}/{{ auth()->user()->image }}" alt="user-image" class="rounded-circle">
 
                                 @else
-                                <img src="{{ asset('uploads/defult') }}/{{ auth()->user()->image }}" alt="user-image" class="rounded-circle">
+                                <img src="{{ asset('uploads/profile') }}/{{ auth()->user()->image }}" alt="user-image" class="rounded-circle">
 
                                 @endif
                                 <span class="ms-1 d-none d-md-inline-block">
