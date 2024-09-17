@@ -38,9 +38,9 @@
                             <span class="badge bg-success rounded-pill d-inline">Active</span>
                           </td>
                           <td>
-                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                              Edit
-                            </button>
+                            <a href="{{ route('category.edit',$category->slug) }}" class="btn btn-link btn-sm btn-rounded text-info">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
                           </td>
                         </tr>
                       @endforeach
@@ -88,7 +88,7 @@
                     </div>
                     <div class="justify-content-end row">
                         <div class="col-sm-9">
-                            <button type="submit" class="btn btn-info waves-effect waves-light">Sign in</button>
+                            <button type="submit" class="btn btn-info waves-effect waves-light">Insert</button>
                         </div>
                     </div>
                 </form>
