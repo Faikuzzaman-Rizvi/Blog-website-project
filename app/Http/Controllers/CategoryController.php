@@ -71,6 +71,15 @@ class CategoryController extends Controller
         ]);
 
         if($request->hasFile('image')){
+
+            if($category->image){
+                $oldpath = base_path('public/uploads/category/'.$category->image);
+
+                if(file_exists($oldpath)){
+                    unlink($oldpath);
+                }
+            }
+
             $newname = auth()->id().'-' .Str::random(5).'-'.$request->file('image')->getClientOriginalExtension();
             $image = $manager->read($request->file('image'));
             $image->toPng()->save(base_path('public/uploads/category/'.$newname));
@@ -116,5 +125,39 @@ class CategoryController extends Controller
     }
 
 
+        public function destroy($slug){
+            $category = Category::where('slug',$slug)->first();
+
+            if($category->image){
+                $oldpath = base_path('public/uploads/category/'.$category->image);
+
+                if(file_exists($oldpath)){
+                    unlink($oldpath);
+                }
+            }
+            Category::find($category->id)->delete();
+            return redirect()->route('category.index')->with('cat_succes' , 'Category delete Successfull');
+        }
+
+        public function status($id){
+            $category = Category::where('id',$id)->first();
+
+            if($category->status == 'active'){
+                Category::find($category->id)->update([
+                    'status' => 'deactive',
+                    'updated_at' => now(),
+                ]);
+                return redirect()->route('category.index')->with('cat_succes' , 'Category status deactive Successfull');
+            }else{
+                Category::find($category->id)->update([
+                    'status' => 'active',
+                    'updated_at' => now(),
+                ]);
+                return redirect()->route('category.index')->with('cat_succes' , 'Category status active Successfull');
+            }
+        }
+
+
+        
 
 }
