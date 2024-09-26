@@ -98,7 +98,7 @@
                                     </form>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-info btn-sm">
+                                        <a href="{{ route('management.edit',$manager->id) }}" class="btn btn-info btn-sm">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
                                         <a href="" class="btn btn-danger btn-sm">

@@ -51,4 +51,8 @@ class ManagementController extends Controller
         }
     }
 
+    public function edit($id){
+        return view('dashboard.management.auth.edit');
+    }
+
 }

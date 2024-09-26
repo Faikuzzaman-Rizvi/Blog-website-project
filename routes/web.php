@@ -22,6 +22,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/management', [ManagementController::class, 'index'])->name('management.index');
 Route::post('/management/user/register', [ManagementController::class, 'store_register'])->name('management.store');
 Route::post('/management/user/manager/down/{id}', [ManagementController::class, 'manager_down'])->name('management.down');
+Route::get('/management/edit/{id}', [ManagementController::class, 'edit'])->name('management.edit');
 
 //profile routes..
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
