@@ -8,7 +8,7 @@
             <div class="card-body">
                 <h4 class="header-title mb-3">Role & User Registration</h4>
 
-                <form role="form" action="{{ route('management.store') }}" method="POST" enctype="multipart/form-data">
+                <form role="form" action="{{ route('management.store') }}" method="POST">
                     @csrf
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Name</label>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    {{-- <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Manager's Table</h4>
@@ -101,7 +101,7 @@
                                         <a href="{{ route('management.edit',$manager->id) }}" class="btn btn-info btn-sm">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
-                                        <a href="" class="btn btn-danger btn-sm">
+                                        <a href="{{ route('management.delete',$manager->id) }}" class="btn btn-danger btn-sm">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
                                     </td>
@@ -113,7 +113,72 @@
                 </div> <!-- end table-responsive-->
             </div>
         </div> <!-- end card -->
+    </div> --}}
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Manager's Table</h4>
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                @if (Auth::user()->role == 'admin')
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                @endif
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($managers as $manager)
+                                <tr>
+                                    <th scope="row">{{ $loop->index + 1 }}</th>
+                                    <td>{{ $manager->name }}</td>
+                                    <td>{{ $manager->role }}</td>
+                                    @if (Auth::user()->role == 'admin')
+                                        <td>
+                                            <form id="herouser{{ $manager->id }}" action="{{ route('management.down', $manager->id) }}" method="POST">
+                                                @csrf
+                                                <div class="form-check form-switch">
+                                                    <input onchange="document.querySelector('#herouser{{ $manager->id }}').submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $manager->role == $manager->role ? 'checked' : '' }}>
+                                                </div>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('management.edit', $manager->id) }}" class="btn btn-info btn-sm">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <a href="{{ route('management.delete', $manager->id) }}" class="btn btn-danger btn-sm"
+                                               onclick="return confirm('Are you sure you want to delete this user?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div> <!-- end table-responsive-->
+            </div>
+        </div> <!-- end card -->
     </div>
+
 
 </div>
 
@@ -128,6 +193,30 @@
 <script>
     Toastify({
   text: "{{ (session('register_complete')) }}",
+  duration: 3000,
+  newWindow: true,
+  close: true,
+  gravity: "top", // `top` or `bottom`
+  position: "right", // `left`, `center` or `right`
+  stopOnFocus: true, // Prevents dismissing of toast on hover
+  style: {
+    background: "linear-gradient(to right, #00b09b, #96c93d)",
+  },
+  onClick: function(){} // Callback after click
+}).showToast();
+</script>
+
+@endif
+
+@endsection
+
+@section('script')
+
+@if (session('success'))
+
+<script>
+    Toastify({
+  text: "{{ (session('success')) }}",
   duration: 3000,
   newWindow: true,
   close: true,

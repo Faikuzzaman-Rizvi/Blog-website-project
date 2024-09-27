@@ -51,8 +51,65 @@ class ManagementController extends Controller
         }
     }
 
-    public function edit($id){
-        return view('dashboard.management.auth.edit');
+    public function edit($id) {
+        // Retrieve the specific user by their ID
+        $manager = User::find($id);
+
+        // Check if user exists
+        if ($manager) {
+            return view('dashboard.management.auth.edit', compact('manager'));
+        } else {
+            return redirect()->back()->with('error', 'User not found!');
+        }
     }
+
+
+
+    public function update(Request $request, $id) {
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'role' => 'required',
+            'password' => 'nullable|min:8',  // password is optional, min length of 8 if provided
+        ]);
+
+        // Find the user by ID
+        $manager = User::find($id);
+
+        if ($manager) {
+            // Update the name, email, and role
+            $manager->name = $request->name;
+            $manager->email = $request->email;
+            $manager->role = $request->role;
+
+            // Update the password only if provided
+            if ($request->password) {
+                $manager->password = bcrypt($request->password);  // Ensure password is hashed
+            }
+
+            // Save the updated user data
+            $manager->save();
+
+            return redirect()->route('management.edit', $manager->id)->with('success', 'Role & User updated successfully!');
+        } else {
+            return redirect()->back()->with('error', 'User not found!');
+        }
+    }
+
+    public function destroy($id) {
+        $manager = User::find($id);
+
+        if ($manager) {
+            $manager->delete(); // Deletes the user
+            return redirect()->route('management.index')->with('success', 'User deleted successfully!');
+        } else {
+            return redirect()->back()->with('error', 'User not found!');
+        }
+    }
+
+
+
+
 
 }

@@ -23,6 +23,11 @@ Route::get('/management', [ManagementController::class, 'index'])->name('managem
 Route::post('/management/user/register', [ManagementController::class, 'store_register'])->name('management.store');
 Route::post('/management/user/manager/down/{id}', [ManagementController::class, 'manager_down'])->name('management.down');
 Route::get('/management/edit/{id}', [ManagementController::class, 'edit'])->name('management.edit');
+Route::put('/management/edit/update/{id}', [ManagementController::class, 'update'])->name('management.update');
+Route::get('/management/delete/{id}', [ManagementController::class, 'destroy'])->name('management.delete');
+
+
+
 
 //profile routes..
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
