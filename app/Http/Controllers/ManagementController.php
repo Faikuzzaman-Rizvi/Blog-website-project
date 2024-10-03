@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
+use Session;
 
 class ManagementController extends Controller
 {
@@ -108,8 +109,35 @@ class ManagementController extends Controller
         }
     }
 
+    //role manage
 
+    public function role_index(){
+        $bloggers = User::where('role','blogger')->get();
+        $users = User::where('role','user')->get();
+        return view('dashboard.management.role.index',[
+            'users' => $users,
+            'bloggers' => $bloggers,
+        ]);
+    }
 
+    public function role_assign(Request $request){
+
+        $request->validate([
+            'role' => 'required|in:manager,blogger,user',
+        ]);
+
+        $user = User::where('id',$request->user_id)->first();
+
+        User::find($user->id)->update([
+            'role' => $request->role,
+            'update_at' => now(),
+        ]);
+
+        Session::flash('assign','Role Assign Successfull');
+
+        return back();
+
+    }
 
 
 }

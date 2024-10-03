@@ -19,12 +19,22 @@ Route::get('/',[FrontendController::class , 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //management routes..
-Route::get('/management', [ManagementController::class, 'index'])->name('management.index');
-Route::post('/management/user/register', [ManagementController::class, 'store_register'])->name('management.store');
-Route::post('/management/user/manager/down/{id}', [ManagementController::class, 'manager_down'])->name('management.down');
-Route::get('/management/edit/{id}', [ManagementController::class, 'edit'])->name('management.edit');
-Route::put('/management/edit/update/{id}', [ManagementController::class, 'update'])->name('management.update');
-Route::get('/management/delete/{id}', [ManagementController::class, 'destroy'])->name('management.delete');
+
+Route::prefix(env('HOST_NAME'))->middleware(['rolecheck'])->group(function(){
+
+    Route::get('/management', [ManagementController::class, 'index'])->name('management.index');
+    Route::post('/management/user/register', [ManagementController::class, 'store_register'])->name('management.store');
+    Route::post('/management/user/manager/down/{id}', [ManagementController::class, 'manager_down'])->name('management.down');
+    Route::get('/management/edit/{id}', [ManagementController::class, 'edit'])->name('management.edit');
+    Route::put('/management/edit/update/{id}', [ManagementController::class, 'update'])->name('management.update');
+    Route::get('/management/delete/{id}', [ManagementController::class, 'destroy'])->name('management.delete');
+
+    //role
+    Route::get('/management/role', [ManagementController::class, 'role_index'])->name('management.role.index');
+    Route::post('/management/role/assign', [ManagementController::class, 'role_assign'])->name('management.role.assign');
+
+});
+
 
 
 
