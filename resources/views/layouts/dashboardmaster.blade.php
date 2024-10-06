@@ -83,6 +83,11 @@
                                         <span class="menu-text">Assign Existing User Role</span>
                                     </a>
                                 </li>
+                                <li class="menu-item">
+                                    <a class='menu-link' href='{{ route('management.block.index') }}'>
+                                        <span class="menu-text">Block User list</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>

@@ -171,6 +171,44 @@ class ManagementController extends Controller
 
         }
     }
+    public function role_destroy($id) {
+        // Find the user by their ID and check if their role is 'user'
+        $user = User::where('id', $id)->where('role', 'user')->first();
+
+        // If the user is found and has the role 'user'
+        if ($user) {
+            $user->delete(); // Deletes the user
+            return redirect()->route('management.role.index')->with('success', 'User deleted successfully!');
+        } else {
+            return redirect()->back()->with('error', 'User not found or user does not have the "user" role!');
+        }
+    }
+
+
+
+    //block user
+    public function block_index(){
+        $users = User::where('role','user')->where('block',true)->get();
+        return view('dashboard.management.block_user.index',[
+            'users' => $users,
+        ]);
+    }
+
+    public function unblock_index($id){
+        $user = User::where('id',$id)->first();
+
+        if($user->role == 'user'){
+            User::find($user->id)->update([
+                'block' => false,
+                'update_at' => now(),
+            ]);
+
+            Session::flash('unblock','Role unblock Successfull');
+
+            return back();
+
+        }
+    }
 
 
 

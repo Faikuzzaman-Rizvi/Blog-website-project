@@ -34,6 +34,12 @@ Route::prefix(env('HOST_NAME'))->middleware(['rolecheck'])->group(function(){
     Route::post('/management/role/assign', [ManagementController::class, 'role_assign'])->name('management.role.assign');
     Route::post('/management/role/undo/blogger/{id}', [ManagementController::class, 'blogger_grade_down'])->name('management.role.blogger.down');
     Route::post('/management/role/undo/user/{id}', [ManagementController::class, 'user_grade_down'])->name('management.role.user.down');
+    Route::get('/management/role/delete/{id}', [ManagementController::class, 'role_destroy'])->name('management.role.delete');
+
+
+    //block user list
+    Route::get('/management/block', [ManagementController::class, 'block_index'])->name('management.block.index');
+    Route::post('/management/block/unblock{id}', [ManagementController::class, 'unblock_index'])->name('management.unblock.index');
 
 });
 

@@ -158,21 +158,23 @@
                                     <td>{{ $user->role }}</td>
                                     @if (Auth::user()->role == 'admin')
                                         <td>
-                                            <form id="herouser{{ $user->id }}" action="{{ route('management.role.user.down', $user->id) }}" method="POST">
+                                            <form id="herousers{{ $user->id }}" action="{{ route('management.role.user.down', $user->id) }}" method="POST">
                                                 @csrf
                                                 <div class="form-check form-switch">
-                                                    <input onchange="document.querySelector('#herouser{{ $user->id }}').submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $user->role == $user->role ? 'checked' : '' }}>
+                                                    <input onchange="document.querySelector('#herousers{{ $user->id }}').submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $user->role == $user->role ? 'checked' : '' }}>
                                                 </div>
                                             </form>
                                         </td>
                                         <td>
-                                            <a href="{{ route('management.edit', $user->id) }}" class="btn btn-info btn-sm">
+                                            {{-- <a href="{{ route('management.edit', $user->id) }}" class="btn btn-info btn-sm">
                                                 <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                            <a href="{{ route('management.delete', $user->id) }}" class="btn btn-danger btn-sm"
-                                               onclick="return confirm('Are you sure you want to delete this user?')">
+                                            </a> --}}
+
+                                            <a href="{{ route('management.role.delete', $user->id) }}" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Are you sure you want to delete this user?')">
                                                 <i class="fa-solid fa-trash"></i>
                                             </a>
+
                                         </td>
                                     @endif
                                 </tr>
