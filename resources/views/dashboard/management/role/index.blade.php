@@ -82,14 +82,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($bloggers as $blogger)
+                            @forelse ($bloggers as $blogger)
                                 <tr>
                                     <th scope="row">{{ $loop->index + 1 }}</th>
                                     <td>{{ $blogger->name }}</td>
                                     <td>{{ $blogger->role }}</td>
                                     @if (Auth::user()->role == 'admin')
                                         <td>
-                                            <form id="herouser{{ $blogger->id }}" action="{{ route('management.down', $blogger->id) }}" method="POST">
+                                            <form id="herouser{{ $blogger->id }}" action="{{ route('management.role.blogger.down', $blogger->id) }}" method="POST">
                                                 @csrf
                                                 <div class="form-check form-switch">
                                                     <input onchange="document.querySelector('#herouser{{ $blogger->id }}').submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $blogger->role == $blogger->role ? 'checked' : '' }}>
@@ -107,7 +107,11 @@
                                         </td>
                                     @endif
                                 </tr>
-                            @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-danger text-center"> no blogger found!</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div> <!-- end table-responsive-->
@@ -147,14 +151,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
+                            @forelse ($users as $user)
                                 <tr>
                                     <th scope="row">{{ $loop->index + 1 }}</th>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->role }}</td>
                                     @if (Auth::user()->role == 'admin')
                                         <td>
-                                            <form id="herouser{{ $user->id }}" action="{{ route('management.down', $user->id) }}" method="POST">
+                                            <form id="herouser{{ $user->id }}" action="{{ route('management.role.user.down', $user->id) }}" method="POST">
                                                 @csrf
                                                 <div class="form-check form-switch">
                                                     <input onchange="document.querySelector('#herouser{{ $user->id }}').submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $user->role == $user->role ? 'checked' : '' }}>
@@ -172,7 +176,11 @@
                                         </td>
                                     @endif
                                 </tr>
-                            @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-danger text-center0"> no user found!!</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div> <!-- end table-responsive-->

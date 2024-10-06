@@ -113,7 +113,7 @@ class ManagementController extends Controller
 
     public function role_index(){
         $bloggers = User::where('role','blogger')->get();
-        $users = User::where('role','user')->get();
+        $users = User::where('role','user')->where('block',false)->get();
         return view('dashboard.management.role.index',[
             'users' => $users,
             'bloggers' => $bloggers,
@@ -138,6 +138,41 @@ class ManagementController extends Controller
         return back();
 
     }
+
+
+    public function blogger_grade_down($id){
+        $user = User::where('id',$id)->first();
+
+        if($user->role == 'blogger'){
+            User::find($user->id)->update([
+                'role' => 'user',
+                'update_at' => now(),
+            ]);
+
+            Session::flash('assign','Role down Successfull');
+
+            return back();
+
+        }
+    }
+
+    public function user_grade_down($id){
+        $user = User::where('id',$id)->first();
+
+        if($user->role == 'user'){
+            User::find($user->id)->update([
+                'block' => true,
+                'update_at' => now(),
+            ]);
+
+            Session::flash('assign','block user Successfull');
+
+            return back();
+
+        }
+    }
+
+
 
 
 }
