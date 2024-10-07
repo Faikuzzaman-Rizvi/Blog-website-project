@@ -97,13 +97,15 @@
                                             </form>
                                         </td>
                                         <td>
-                                            <a href="{{ route('management.edit', $blogger->id) }}" class="btn btn-info btn-sm">
+                                            {{-- <a href="{{ route('management.edit', $blogger->id) }}" class="btn btn-info btn-sm">
                                                 <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                            <a href="{{ route('management.delete', $blogger->id) }}" class="btn btn-danger btn-sm"
-                                               onclick="return confirm('Are you sure you want to delete this user?')">
+                                            </a> --}}
+                                            <a href="{{ route('management.role.blogger.delete', $blogger->id) }}" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Are you sure you want to delete this user?')">
                                                 <i class="fa-solid fa-trash"></i>
-                                            </a>
+                                             </a>
+
+
                                         </td>
                                     @endif
                                 </tr>
@@ -125,15 +127,15 @@
             <div class="card-body">
                 <h4 class="header-title">Users Table</h4>
 
-                @if (session('success'))
+                @if (session('successfull'))
                     <div class="alert alert-success">
-                        {{ session('success') }}
+                        {{ session('successfull') }}
                     </div>
                 @endif
 
-                @if (session('error'))
+                @if (session('errorr'))
                     <div class="alert alert-danger">
-                        {{ session('error') }}
+                        {{ session('errorr') }}
                     </div>
                 @endif
 

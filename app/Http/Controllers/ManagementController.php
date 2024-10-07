@@ -171,6 +171,8 @@ class ManagementController extends Controller
 
         }
     }
+
+    //user delete
     public function role_destroy($id) {
         // Find the user by their ID and check if their role is 'user'
         $user = User::where('id', $id)->where('role', 'user')->first();
@@ -178,11 +180,28 @@ class ManagementController extends Controller
         // If the user is found and has the role 'user'
         if ($user) {
             $user->delete(); // Deletes the user
-            return redirect()->route('management.role.index')->with('success', 'User deleted successfully!');
+            return redirect()->route('management.role.index')->with('successfull', 'User deleted successfully!');
         } else {
-            return redirect()->back()->with('error', 'User not found or user does not have the "user" role!');
+            return redirect()->back()->with('errorr', 'User not found or user does not have the "user" role!');
         }
     }
+
+    //blogger delete
+
+    public function role_blogger_destroy($id)
+    {
+        // Find the blogger by their ID and role
+        $blogger = User::where('id', $id)->where('role', 'blogger')->first();
+
+        // If the blogger is found, delete them
+        if ($blogger) {
+            $blogger->delete();
+            return redirect()->route('management.role.index')->with('success', 'Blogger deleted successfully!');
+        } else {
+            return redirect()->back()->with('error', 'Blogger not found or does not have the "blogger" role!');
+        }
+    }
+
 
 
 
