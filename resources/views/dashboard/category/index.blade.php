@@ -35,10 +35,10 @@
                             <p class="fw-normal mb-1">{{ $category->title }}</p>
                           </td>
                           <td>
-                            <form id="statusid" action="{{ route('category.status',$category->id) }}" method="POST">
+                            <form id="statusid{{ $category->id }}" action="{{ route('category.status',$category->id) }}" method="POST">
                                 @csrf
                             <div class="form-check form-switch">
-                                <input onchange="document.querySelector('#statusid').submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $category->status == 'active' ? 'checked' : '' }}>
+                                <input onchange="document.querySelector('#statusid{{ $category->id }}').submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $category->status == 'active' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="flexSwitchCheckChecked">{{ $category->status }}</label>
                               </div>
                             </form>

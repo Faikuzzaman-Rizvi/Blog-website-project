@@ -50,9 +50,9 @@
                                             </form>
                                         </td>
                                         <td>
-                                            <a href="{{ route('management.edit', $user->id) }}" class="btn btn-info btn-sm">
+                                            {{-- <a href="{{ route('management.edit', $user->id) }}" class="btn btn-info btn-sm">
                                                 <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
+                                            </a> --}}
                                             <a href="{{ route('management.delete', $user->id) }}" class="btn btn-danger btn-sm"
                                                onclick="return confirm('Are you sure you want to delete this user?')">
                                                 <i class="fa-solid fa-trash"></i>
