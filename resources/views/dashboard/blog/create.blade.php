@@ -16,7 +16,7 @@ Blog
             <div class="card-body">
                 <h4 class="header-title mb-3">Blog Create</h4>
 
-                <form role="form" action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
+                <form role="form" action="{{ route('blog.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-3 col-form-label">Blog Title</label>
@@ -63,6 +63,17 @@ Blog
                         </div>
                     </div>
 
+
+                    <div class="row mb-3">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="description" id="textareaLong"> </textarea>
+                            @error('description')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="row mb-3">
                         <img id="cat" src="{{ asset('uploads/default/defult1.jpg') }}" alt="" style="width: 100%; heght:300px; object-fit:content;">
 
@@ -78,7 +89,7 @@ Blog
                     </div>
                     <div class="justify-content-end row">
                         <div class="col-sm-9">
-                            <button type="submit" class="btn btn-info waves-effect waves-light">Insert</button>
+                            <button type="submit" class="btn btn-info waves-effect waves-light">Upload</button>
                         </div>
                     </div>
                 </form>
@@ -113,4 +124,26 @@ Blog
     });
   </script>
 
+<script>
+    tinymce.init({
+      selector: 'textareaLong',
+      plugins: [
+        // Core editing features
+        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+        // Your account includes a free trial of TinyMCE premium features
+        // Try the most popular premium features until Oct 25, 2024:
+        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
+      ],
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+      mergetags_list: [
+        { value: 'First.Name', title: 'First Name' },
+        { value: 'Email', title: 'Email' },
+      ],
+      ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+    });
+  </script>
+
 @endsection
+

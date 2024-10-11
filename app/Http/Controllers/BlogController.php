@@ -6,6 +6,11 @@ use App\Models\Blog;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
+Use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -14,7 +19,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return view('dashboard.blog.index');
+        $blogs = Blog::latest()->paginate(2);
+        return view('dashboard.blog.index',compact('blogs'));
     }
 
     /**
@@ -31,7 +37,49 @@ class BlogController extends Controller
      */
     public function store(StoreBlogRequest $request)
     {
-        //
+        $request->validated([
+            "category_id" => 'required',
+            "title" => 'required',
+            "thumnail" => 'required',
+            "short_description" => 'required|max:400',
+            "description" => 'required',
+
+
+        ]);
+
+        if($request->hasFile('thumbnail')){
+            $manager = new ImageManager(new Driver());
+            $newname = Auth::user()->id.'-'.Str::random(4) .".".$request->file('thumbnail')->getClientOriginalExtension();
+            $image = $manager->read($request->file('thumbnail'));
+            $image->toPng()->save(base_path('public/uploads/blog/'.$newname));
+
+            if($request->slug){
+                Blog::create([
+                    'user_id' => Auth::user()->id,
+                    "category_id" => $request->category_id,
+                    "title" => $request->title,
+                    "slug" => Str::slug($request->slug,'-'),
+                    "thumnail" => $newname,
+                    "short_description" => $request->short_description,
+                    "description" => $request->description,
+                    "created_at" => now(),
+                ]);
+                return redirect()->route('blog.index')->with('success','Blog Insart Successfull');
+            }else{
+                Blog::create([
+                    'user_id' => Auth::user()->id,
+                    "category_id" => $request->category_id,
+                    "title" => $request->title,
+                    "slug" => Str::slug($request->slug,'-'),
+                    "thumnail" => $newname,
+                    "short_description" => $request->short_description,
+                    "description" => $request->description,
+                    "created_at" => now(),
+                ]);
+                return redirect()->route('blog.index')->with('success','Blog Insart Successfull');
+            }
+
+        }
     }
 
     /**
