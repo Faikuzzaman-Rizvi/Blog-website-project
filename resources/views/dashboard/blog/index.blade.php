@@ -47,6 +47,7 @@ Blog
                       <td>
                         <form id="statusid{{ $blog->id }}" action="{{ route('category.status',$blog->id) }}" method="POST">
                             @csrf
+
                         <div class="form-check form-switch">
                             <input onchange="document.querySelector('#statusid{{ $blog->id }}').submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $blog->status == 'active' ? 'checked' : '' }}>
                             <label class="form-check-label" for="flexSwitchCheckChecked">{{ $blog->status }}</label>
@@ -57,12 +58,18 @@ Blog
                         <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#blogshow{{ $blog->id }}" class="btn btn-link btn-sm btn-rounded text-warning">
                             <i class="fa-regular fa-eye"></i>
                         </a>
-                        <a href="{{ route('blog.edit',$blog->id) }}" class="btn btn-link btn-sm btn-rounded text-info">
+                        <a href="{{ route('blog.edit', $blog->id) }}"
+                            class="btn btn-outline-info waves-effect waves-light">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
-                        <a href="{{ route('category.destroy',$blog->slug) }}" class="btn btn-link btn-sm btn-rounded text-danger">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </a>
+
+                        <form action="{{ route('blog.destroy', $blog->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger waves-effect waves-light">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>
                       </td>
                     </tr>
 

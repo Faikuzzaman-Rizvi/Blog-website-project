@@ -9,8 +9,8 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
-
-Use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -119,6 +119,13 @@ class BlogController extends Controller
             $newname = Auth::user()->id.'-'.Str::random(4) .".".$request->file('thumbnail')->getClientOriginalExtension();
             $image = $manager->read($request->file('thumbnail'));
             $image->toPng()->save(base_path('public/uploads/blog/'.$newname));
+          // Old thumbnail path
+        $oldpath = base_path('public/uploads/blog/' . $blog->thumbnail);
+
+        // Check if the old file exists before trying to delete it
+        if (file_exists($oldpath) && !empty($blog->thumbnail)) {
+            unlink($oldpath);
+        }
 
             if($request->slug){
                 Blog::find($blog->id)->update([
@@ -176,8 +183,31 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Blog $blog)
+    public function destroy($id)
     {
-        //
+        $blog = Blog::where('id', $id)->firstOrFail();
+
+        if ($blog->thumbnail) {
+            $oldpath = base_path('public/uploads/blog/' . $blog->thumbnail);
+
+            if (file_exists($oldpath)) {
+                unlink($oldpath);
+            }
+        }
+        // Delete the blog
+        $blog->delete();
+
+        // Redirect back with a success message
+        return redirect()->route('blog.index')->with('success', 'Blog deleted successfully.');
+    }
+
+    // active and deactive
+    public function updateStatus(Request $request, $id)
+    {
+        $blog = Blog::findOrFail($id);
+        $blog->status = $blog->status == 'active' ? 'inactive' : 'active';
+        $blog->save();
+
+        return redirect()->back()->with('success', 'Blog status updated successfully!');
     }
 }
