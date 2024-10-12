@@ -17,7 +17,8 @@ Blog
                   <tr>
                     <th>Image</th>
                     <th>Title</th>
-                    <th>Description</th>
+                    <th>Category Title</th>
+                    <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -33,12 +34,15 @@ Blog
                             class="rounded-circle"
                             />
                           <div class="ms-3">
-                            <p class="fw-bold mb-1">{{ $blog->title }}</p>
+                            <p class="fw-bold mb-1">{{ $blog->slug }}</p>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="fw-normal mb-1">{!! $blog->description !!}</p>
+                        <p class="fw-normal mb-1">{{ $blog->title }}</p>
+                      </td>
+                      <td>
+                        <p class="fw-normal mb-1">{{ $blog->onecategory->title }}</p>
                       </td>
                       <td>
                         <form id="statusid{{ $blog->id }}" action="{{ route('category.status',$blog->id) }}" method="POST">
@@ -50,7 +54,10 @@ Blog
                         </form>
                       </td>
                       <td>
-                        <a href="{{ route('category.edit',$blog->slug) }}" class="btn btn-link btn-sm btn-rounded text-info">
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#blogshow{{ $blog->id }}" class="btn btn-link btn-sm btn-rounded text-warning">
+                            <i class="fa-regular fa-eye"></i>
+                        </a>
+                        <a href="{{ route('blog.edit',$blog->id) }}" class="btn btn-link btn-sm btn-rounded text-info">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <a href="{{ route('category.destroy',$blog->slug) }}" class="btn btn-link btn-sm btn-rounded text-danger">
@@ -58,6 +65,30 @@ Blog
                         </a>
                       </td>
                     </tr>
+
+                 {{-- Show Info --}}
+                    <div class="modal fade" id="blogshow{{ $blog->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">{{ $blog->title }}/h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                               Title - {{ $blog->title }}
+                               Slug - {{ $blog->slug }}
+                               Category Title -{{ $blog->onecategory->title }}
+                               Description - {!! $blog->description !!}
+
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                     @empty
 
                     <tr>
@@ -66,6 +97,7 @@ Blog
 
                   @endforelse
                 </tbody>
+                {{ $blogs->links() }}
               </table>
         </div>
     </div>
