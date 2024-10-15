@@ -11,7 +11,7 @@ class CategoryBlogController extends Controller
 {
     public function show($slug){
         $category = Category::where('slug',$slug)->first();
-        $blogs = Blog::where('category_id',$category->id)->get();
+        $blogs = Blog::where('category_id',$category->id)->paginate(1);
 
         return view('frontend.category.index',[
             'blogs' => $blogs,

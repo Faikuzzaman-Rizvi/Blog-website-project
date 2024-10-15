@@ -37,14 +37,21 @@
                             <a href="post-single.html">{{ $blog->title }}</a>
                         </h3>
                         <ul class="entry-meta">
-                            <li class="post-author-img"><img src="assets/img/author/1.jpg" alt=""></li>
-                            <li class="post-author"> <a href="author.html">Meriam Smith</a></li>
-                            <li class="entry-cat"> <a href="blog-layout-1.html" class="category-style-1 "> <span class="line"></span> interior</a></li>
-                            <li class="post-date"> <span class="line"></span> february 10 ,2022</li>
+                            @if ($blog->oneuser->image != 'defult.jpg')
+                            <li class="post-author-img"><img src="{{ Avatar::create($blog->oneuser->name)->toBase64() }}" alt=""></li>
+                            @else
+                            <li class="post-author-img"><img src="{{ asset('uploads/default/defult.jpg') }}" alt=""></li>
+                            @endif
+                            <li class="post-author"> <a href="author.html">{{ $blog->oneuser->name }}</a></li>
+                            <li class="entry-cat"> <a href="blog-layout-1.html" class="category-style-1 "> <span class="line"></span>{{ $blog->oneuser->role }}</a></li>
+                            <li class="post-date"> <span class="line"></span>{{  Carbon\Carbon::parse($blog->created_at)->format('F d ,Y') }}</li>
                         </ul>
                         <div class="post-exerpt">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Ut est minus iste in accusantium repellat repudiandae nulla blanditiis iusto dolores!</p>
+                            <p>
+                                @php
+                                    echo $blog->short_description;
+                                @endphp
+                            </p>
                         </div>
                         <div class="post-btn">
                             <a href="post-single.html" class="btn-read-more">Continue Reading <i class="las la-long-arrow-alt-right"></i></a>
@@ -61,6 +68,18 @@
 
 <!--pagination-->
 <div class="pagination">
+    <div class="container-fluid">
+        <div class="pagination-area">
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ $blogs->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- <div class="pagination">
      <div class="container-fluid">
          <div class="pagination-area">
              <div class="row">
@@ -79,6 +98,6 @@
              </div>
          </div>
      </div>
- </div>
+ </div> --}}
 
 @endsection
