@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => false]);
 
-//fronend..
+//fronend..routes..
 Route::get('/',[FrontendController::class , 'index']);
 Route::get('/category/{slug}',[CategoryBlogController::class , 'show'])->name('front.categroy.blog');
 Route::get('/',[FrontendController::class , 'index'])->name('frontend');
